@@ -1,0 +1,59 @@
+---
+interface Area {
+	name: string;
+	note?: string;
+}
+
+interface Props {
+	city?: string;
+	state?: string;
+	items?: Area[];
+}
+
+const {
+	city = 'Naples',
+	state = 'Florida',
+	items = [
+		{ name: 'Naples, FL', note: 'Primary city' },
+		{ name: '[Add nearby area]', note: 'Confirm coverage' },
+		{ name: '[Add nearby area]', note: 'Confirm coverage' },
+		{ name: '[Add nearby area]', note: 'Confirm coverage' },
+	],
+} = Astro.props;
+---
+
+<section class="areas section" id="service-areas" aria-labelledby="areas-title">
+	<div class="container areas__grid">
+		<div class="areas__intro"><p class="eyebrow">Where we work</p><h2 class="section-heading" id="areas-title">Serving {city} and the surrounding community.</h2><p class="section-copy">Update this list with the neighborhoods, communities, and travel limits the business has confirmed.</p><p class="areas__reminder"><span aria-hidden="true">⌖</span> Exact service boundaries are placeholders until confirmed.</p></div>
+		<ul class="area-list">
+			{items.map((area) => (
+				<li><span class="area-pin" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" stroke="currentColor" stroke-width="1.7" /><circle cx="12" cy="10" r="2.3" stroke="currentColor" stroke-width="1.7" /></svg></span><span><strong class={area.name.includes('[') ? 'placeholder' : ''}>{area.name}</strong><small>{area.note ?? 'Confirm coverage'}</small></span><span class="area-arrow" aria-hidden="true">↗</span></li>
+			))}
+			<li class="area-state"><span>Currently planning around</span><strong>{city}, {state}</strong></li>
+		</ul>
+	</div>
+</section>
+
+<style>
+	.section { padding-block: clamp(4.5rem, 8vw, 7.2rem); }
+	.areas { background: var(--color-white); }
+	.areas__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; align-items: center; gap: clamp(3rem, 8vw, 7rem); }
+	.areas__intro { max-width: 500px; }
+	.areas__intro .section-copy { margin-top: 1rem; }
+	.areas__reminder { display: flex; align-items: center; gap: 0.45rem; margin: 1.2rem 0 0; color: var(--color-muted); font-size: 0.7rem; }
+	.areas__reminder span { color: #688f86; font-size: 1rem; }
+	.area-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin: 0; padding: 0; list-style: none; }
+	.area-list li:not(.area-state) { display: flex; min-height: 4.8rem; align-items: center; gap: 0.65rem; padding: 0.8rem; border: 1px solid var(--color-line); border-radius: 0.55rem; }
+	.area-pin { display: grid; width: 1.8rem; height: 1.8rem; flex: 0 0 auto; place-items: center; border-radius: 50%; color: #4d7a72; background: #e4ede7; }
+	.area-pin svg { width: 1rem; height: 1rem; }
+	.area-list li > span:nth-child(2) { min-width: 0; }
+	.area-list strong, .area-list small { display: block; }
+	.area-list strong { width: fit-content; font-size: 0.7rem; }
+	.area-list small { margin-top: 0.2rem; color: var(--color-muted); font-size: 0.58rem; }
+	.area-arrow { margin-left: auto; color: #6c8c86; font-size: 0.8rem; }
+	.area-state { display: grid; grid-column: span 2; gap: 0.25rem; padding: 1rem 1.05rem; border-radius: 0.55rem; color: white; background: var(--color-ink); }
+	.area-state span { color: #c5d2d5; font-size: 0.61rem; letter-spacing: 0.08em; text-transform: uppercase; }
+	.area-state strong { font-family: var(--font-display); font-size: 0.92rem; font-weight: 500; }
+	@media (max-width: 760px) { .areas__grid { grid-template-columns: 1fr; gap: 2rem; } .areas__intro { max-width: 600px; } }
+	@media (max-width: 460px) { .area-list { grid-template-columns: 1fr; } .area-state { grid-column: auto; } }
+</style>

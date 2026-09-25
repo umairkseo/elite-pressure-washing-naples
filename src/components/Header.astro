@@ -1,0 +1,97 @@
+---
+interface NavItem {
+	label: string;
+	href: string;
+}
+
+interface Props {
+	brand?: string;
+	category?: string;
+	phoneDisplay?: string;
+	phoneHref?: string;
+	items?: NavItem[];
+}
+
+const {
+	brand = 'Elite Pressure Washing Naples',
+	category = 'Exterior Cleaning',
+	phoneDisplay = '[PHONE NUMBER]',
+	phoneHref = '',
+	items = [
+		{ label: 'Services', href: '#services' },
+		{ label: 'Why Elite', href: '#why-us' },
+		{ label: 'Reviews', href: '#reviews' },
+		{ label: 'Areas', href: '#service-areas' },
+		{ label: 'FAQs', href: '#faq' },
+	],
+} = Astro.props;
+
+const contactHref = phoneHref || '#contact-details';
+---
+
+<div class="topline">
+	<div class="container topline__inner">
+		<p><span aria-hidden="true">✳</span> Exterior cleaning in <strong>Naples, Florida</strong></p>
+		{phoneHref ? <a href={contactHref}>Call <strong>{phoneDisplay}</strong></a> : <span class="topline__contact">Phone <strong class="placeholder">{phoneDisplay}</strong></span>}
+	</div>
+</div>
+<header class="site-header">
+	<div class="container header__inner">
+		<a class="brand" href="#top" aria-label={`${brand} home`}>
+			<span class="brand__mark" aria-hidden="true">
+				<svg viewBox="0 0 44 44" fill="none">
+					<path d="M22 4C17.5 12 9.5 19.4 9.5 27.3a12.5 12.5 0 1 0 25 0C34.5 19.4 26.5 12 22 4Z" stroke="currentColor" stroke-width="2" />
+					<path d="M14 28c4.6-2.2 10.1-2.2 16 0M16.5 33c3.2-1.3 7.7-1.3 11 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+				</svg>
+			</span>
+			<span class="brand__type"><strong>{brand}</strong><small>{category}</small></span>
+		</a>
+		<nav class="desktop-nav" aria-label="Main navigation">
+			{items.map((item) => <a href={item.href}>{item.label}</a>)}
+		</nav>
+		<a class="button header__cta" href="#contact">Request an estimate <span aria-hidden="true">↗</span></a>
+		<details class="mobile-nav">
+			<summary aria-label="Open navigation menu"><span></span><span></span></summary>
+			<nav aria-label="Mobile navigation">
+				{items.map((item) => <a href={item.href}>{item.label}</a>)}
+				<a href="#contact">Request an estimate <span aria-hidden="true">↗</span></a>
+				<a href={contactHref}>{phoneHref ? 'Call' : 'Phone'} {phoneDisplay}</a>
+			</nav>
+		</details>
+	</div>
+</header>
+
+<style>
+	.topline { color: #e9eeed; background: var(--color-ink); font-size: 0.74rem; }
+	.topline__inner { display: flex; min-height: 2.2rem; align-items: center; justify-content: space-between; gap: 1rem; }
+	.topline p, .topline a { margin: 0; text-decoration: none; }
+	.topline p span { margin-right: 0.35rem; color: #c7ded8; }
+	.topline a, .topline__contact { color: #d0dcdf; text-decoration: none; }
+	.topline strong { color: white; font-weight: 700; }
+	.topline a strong { margin-left: 0.3rem; }
+	.site-header { position: relative; z-index: 5; border-bottom: 1px solid rgb(23 55 71 / 8%); background: var(--color-paper); }
+	.header__inner { display: flex; min-height: 5.25rem; align-items: center; justify-content: space-between; gap: 1.5rem; }
+	.brand { display: inline-flex; min-width: 15rem; align-items: center; gap: 0.65rem; color: var(--color-ink); text-decoration: none; }
+	.brand__mark { width: 2.4rem; height: 2.4rem; color: #4b807a; }
+	.brand__type strong, .brand__type small { display: block; }
+	.brand__type strong { font-family: var(--font-display); font-size: 0.98rem; font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; }
+	.brand__type small { margin-top: 0.24rem; color: var(--color-muted); font-size: 0.57rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+	.desktop-nav { display: flex; align-items: center; gap: clamp(0.85rem, 1.8vw, 1.55rem); }
+	.desktop-nav a { color: var(--color-ink-soft); font-size: 0.78rem; font-weight: 600; text-decoration: none; transition: color 150ms ease; }
+	.desktop-nav a:hover { color: #408078; }
+	.header__cta { min-height: 2.8rem; flex: 0 0 auto; padding: 0.7rem 1rem; font-size: 0.77rem; }
+	.mobile-nav { display: none; }
+	@media (max-width: 970px) { .desktop-nav { gap: 0.8rem; } .brand { min-width: 0; } .brand__type strong { max-width: 12rem; font-size: 0.88rem; } }
+	@media (max-width: 790px) {
+		.header__inner { min-height: 4.6rem; }
+		.desktop-nav, .header__cta { display: none; }
+		.mobile-nav { position: relative; display: block; }
+		.mobile-nav summary { display: grid; width: 2.8rem; height: 2.8rem; align-content: center; justify-items: center; gap: 0.35rem; border: 1px solid var(--color-line); border-radius: 50%; cursor: pointer; list-style: none; }
+		.mobile-nav summary::-webkit-details-marker { display: none; }
+		.mobile-nav summary span { width: 1rem; height: 1.5px; background: var(--color-ink); }
+		.mobile-nav nav { position: absolute; top: calc(100% + 0.75rem); right: 0; display: grid; width: min(19rem, calc(100vw - 2.5rem)); gap: 0.1rem; padding: 0.55rem; border: 1px solid var(--color-line); border-radius: 0.9rem; background: var(--color-white); box-shadow: var(--shadow-card); }
+		.mobile-nav nav a { padding: 0.78rem 0.85rem; border-radius: 0.55rem; font-size: 0.89rem; font-weight: 600; text-decoration: none; }
+		.mobile-nav nav a:hover { background: var(--color-paper); }
+	}
+	@media (max-width: 450px) { .topline__inner { min-height: 2rem; justify-content: center; } .topline p { font-size: 0.67rem; } .topline a, .topline__contact { display: none; } .brand__type strong { max-width: 15rem; font-size: 0.83rem; } }
+</style>

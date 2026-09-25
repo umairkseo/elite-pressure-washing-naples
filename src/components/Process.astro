@@ -1,0 +1,52 @@
+---
+interface ProcessStep {
+	title: string;
+	description: string;
+}
+
+interface Props {
+	eyebrow?: string;
+	title?: string;
+	intro?: string;
+	steps?: ProcessStep[];
+}
+
+const {
+	eyebrow = 'A simple process',
+	title = 'From the first call to the final rinse.',
+	intro = 'Outline how a typical job moves from estimate to completion. Keep any scheduling promises specific and confirmed.',
+	steps = [
+		{ title: 'Tell us what needs cleaning', description: 'Share the surfaces, address, and anything else that will help us understand the project.' },
+		{ title: 'Review your estimate', description: 'Confirm what is included, the expected timing, and any preparation before work begins.' },
+		{ title: 'Enjoy a fresh exterior', description: 'Complete the agreed service, then add your real follow-up and walkthrough details here.' },
+	],
+} = Astro.props;
+---
+
+<section class="process section" id="process" aria-labelledby="process-title">
+	<div class="container">
+		<div class="process__heading"><div><p class="eyebrow">{eyebrow}</p><h2 class="section-heading" id="process-title">{title}</h2></div><p class="section-copy">{intro}</p></div>
+		<ol class="steps">
+			{steps.map((step, index) => (
+				<li class="step"><span class="step__number">0{index + 1}</span><h3>{step.title}</h3><p>{step.description}</p></li>
+			))}
+		</ol>
+	</div>
+</section>
+
+<style>
+	.section { padding-block: clamp(4.5rem, 8vw, 7.2rem); }
+	.process { color: white; background: var(--color-ink); }
+	.process .eyebrow { color: #d0dcdf; }
+	.process .eyebrow::before { background: var(--color-sand); }
+	.process .section-copy { color: #c5d2d5; }
+	.process__heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
+	.process__heading > div { max-width: 640px; }
+	.process__heading .section-copy { max-width: 365px; margin: 0 0 0.2rem; }
+	.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3.3rem 0 0; padding: 0; list-style: none; }
+	.step { padding: 1.2rem 1.35rem 0 0; border-top: 1px solid rgb(255 255 255 / 27%); }
+	.step__number { display: inline-grid; width: 2.35rem; height: 2.35rem; place-items: center; border: 1px solid #89aaa3; border-radius: 50%; color: #deebe6; font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; }
+	.step h3 { margin: 1.35rem 0 0.55rem; font-family: var(--font-display); font-size: 1.23rem; font-weight: 500; letter-spacing: -0.025em; }
+	.step p { max-width: 330px; margin: 0; color: #c5d2d5; font-size: 0.8rem; line-height: 1.7; }
+	@media (max-width: 700px) { .process__heading { align-items: flex-start; flex-direction: column; gap: 0.7rem; } .process__heading .section-copy { max-width: 520px; } .steps { grid-template-columns: 1fr; gap: 1rem; margin-top: 2.3rem; } .step { display: grid; grid-template-columns: 2.55rem 1fr; column-gap: 0.9rem; padding: 1rem 0 0.25rem; } .step__number { grid-row: span 2; } .step h3 { margin: 0.1rem 0 0.4rem; } .step p { max-width: 520px; grid-column: 2; } }
+</style>

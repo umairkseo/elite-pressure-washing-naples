@@ -1,0 +1,217 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/pressure-washing-hero.png';
+
+interface Props {
+	eyebrow?: string;
+	title?: string;
+	intro?: string;
+	primaryHref?: string;
+	primaryLabel?: string;
+	secondaryHref?: string;
+	secondaryLabel?: string;
+}
+
+const {
+	eyebrow = 'NAPLES, FLORIDA · RESIDENTIAL & COMMERCIAL',
+	title = 'A cleaner exterior. A warmer welcome.',
+	intro = 'Thoughtful pressure washing and exterior cleaning for Naples homes, outdoor spaces, and local businesses.',
+	primaryHref = '#contact',
+	primaryLabel = 'Request an estimate',
+	secondaryHref = '#services',
+	secondaryLabel = 'Explore our services',
+} = Astro.props;
+
+// Accent the second sentence without changing the reusable title value.
+const titleParts = title.match(/^(.+?[.!?])\s+(.+)$/);
+---
+
+<section class="hero" id="top" aria-labelledby="hero-title">
+	<div class="container hero__grid">
+		<div class="hero__copy">
+			<p class="hero__eyebrow">{eyebrow}</p>
+			<h1 id="hero-title">
+				{titleParts ? <><span>{titleParts[1]}</span>{' '}<span class="hero__title-accent">{titleParts[2]}</span></> : title}
+			</h1>
+			<p class="hero__intro">{intro}</p>
+			<div class="hero__actions">
+				<a class="hero__button hero__button--primary" href={primaryHref}>
+					<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<rect x="4" y="5" width="16" height="16" rx="2" />
+						<path d="M16 3v4M8 3v4M4 11h16m-12 5h3m-3 3h7" />
+					</svg>
+					{primaryLabel}
+				</a>
+				<a class="hero__button hero__button--secondary" href={secondaryHref}>
+					<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<rect x="3" y="3" width="7" height="7" rx="1" />
+						<rect x="14" y="3" width="7" height="7" rx="1" />
+						<rect x="3" y="14" width="7" height="7" rx="1" />
+						<rect x="14" y="14" width="7" height="7" rx="1" />
+					</svg>
+					{secondaryLabel}
+				</a>
+			</div>
+		</div>
+		<figure class="hero__visual">
+			<Image
+				src={heroImage}
+				alt="A pressure-washing technician cleaning a stone driveway outside a coastal Florida home."
+				class="hero__image"
+				width={1200}
+				height={1200}
+				widths={[400, 640, 900, 1200]}
+				sizes="(min-width: 1264px) 529px, (min-width: 1024px) calc((100vw - 112px) / 2.18), (min-width: 648px) 608px, calc(100vw - 40px)"
+				format="webp"
+				quality={82}
+				loading="eager"
+				fetchpriority="high"
+			/>
+			<figcaption class="hero__caption">
+				<span class="hero__location">NAPLES · FLORIDA</span>
+				<span class="hero__caption-copy"><span>Exterior care</span><strong>Made for the way we live outside.</strong></span>
+			</figcaption>
+		</figure>
+	</div>
+</section>
+
+<style>
+	.hero {
+		--hero-content-width: 75rem;
+		--hero-section-spacing: 3.5rem;
+		--hero-card-radius: 1rem;
+		--hero-button-radius: 0.625rem;
+		--hero-primary: #123e5e;
+		--hero-secondary: #1968c7;
+		--hero-accent: #ed7016;
+		--hero-background: #fff;
+		--hero-text: #123e5e;
+		--hero-muted-text: #626c75;
+		padding-block: var(--hero-section-spacing);
+		color: var(--hero-text);
+		background: var(--hero-background);
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 1.125rem;
+		line-height: 1.6;
+	}
+
+	.hero__grid {
+		display: grid;
+		width: min(var(--hero-content-width), calc(100% - 2.5rem));
+		grid-template-columns: minmax(0, 1fr);
+		align-items: center;
+		gap: 2.5rem;
+	}
+
+	.hero__copy { min-width: 0; }
+	.hero__eyebrow {
+		margin: 0 0 1rem;
+		/* A darker accent keeps small text legible on white. */
+		color: #c0570b;
+		font-size: 0.875rem;
+		font-weight: 800;
+		letter-spacing: 0.075em;
+		line-height: 1.6;
+	}
+
+	h1 {
+		margin: 0;
+		color: var(--hero-primary);
+		font-family: inherit;
+		font-size: 3.5rem;
+		font-weight: 700;
+		letter-spacing: -0.035em;
+		line-height: 1.05;
+	}
+
+	h1 span { display: block; }
+	.hero__title-accent { color: var(--hero-secondary); }
+	.hero__intro {
+		max-width: 39rem;
+		margin: 1.5rem 0 0;
+		color: var(--hero-muted-text);
+		font-size: 1.125rem;
+		font-weight: 500;
+		line-height: 1.6;
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 1rem;
+		margin-top: 2rem;
+	}
+
+	.hero__button {
+		display: inline-flex;
+		min-height: 3.5rem;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+		padding: 0.875rem 1.25rem;
+		border: 2px solid transparent;
+		border-radius: var(--hero-button-radius);
+		font-size: 1.25rem;
+		font-weight: 700;
+		line-height: 1.2;
+		text-align: center;
+		text-decoration: none;
+		transition: background-color 160ms ease, border-color 160ms ease;
+	}
+
+	.hero__button svg { flex: 0 0 auto; }
+	.hero__button--primary { color: var(--hero-background); background: var(--hero-accent); }
+	.hero__button--primary:hover { background: #c4560b; }
+	.hero__button--secondary {
+		border-color: var(--hero-secondary);
+		color: var(--hero-secondary);
+		background: var(--hero-background);
+	}
+	.hero__button--secondary:hover { background: #f0f6fe; }
+	.hero__button:focus-visible { outline-color: var(--hero-secondary); }
+	.hero__visual { width: 100%; min-width: 0; max-width: 38rem; margin: 0 auto; }
+	.hero__image {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1;
+		border-radius: var(--hero-card-radius);
+		object-fit: cover;
+		background: #e9ece8;
+	}
+
+	.hero__caption {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem 1rem;
+		padding-top: 1rem;
+		color: var(--hero-muted-text);
+		font-size: 0.75rem;
+		line-height: 1.6;
+	}
+
+	.hero__location { flex-shrink: 0; font-weight: 700; letter-spacing: 0.08em; }
+	.hero__caption-copy { display: grid; text-align: right; margin-left: auto; }
+	.hero__caption-copy > span { font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; }
+	.hero__caption-copy strong { font-weight: 500; }
+
+	@media (min-width: 40rem) {
+		.hero__actions { flex-direction: row; flex-wrap: wrap; }
+	}
+
+	@media (min-width: 48rem) {
+		.hero { --hero-section-spacing: 5.5rem; }
+		.hero__grid { width: min(var(--hero-content-width), calc(100% - 4rem)); }
+	}
+
+	@media (min-width: 64rem) {
+		.hero__grid { grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr); gap: 3rem; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero__button { transition: none; }
+	}
+</style>

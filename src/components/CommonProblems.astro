@@ -1,0 +1,52 @@
+---
+interface Problem {
+	name: string;
+	description: string;
+}
+
+interface Props {
+	eyebrow?: string;
+	title?: string;
+	intro?: string;
+	items?: Problem[];
+}
+
+const {
+	eyebrow = 'Common exterior cleaning problems',
+	title = 'Outdoor living leaves its mark.',
+	intro = 'Sun, rain, shade, and daily use can change the look of the surfaces around your home. Start with what you see most.',
+	items = [
+		{ name: 'Organic buildup', description: 'Dark or green patches that appear in shaded, damp areas.' },
+		{ name: 'Coastal residue', description: 'Surface film and salt carried in from the Gulf breeze.' },
+		{ name: 'Pollen & dust', description: 'A fine layer that settles on screens, trim, and outdoor spaces.' },
+		{ name: 'Weathered hardscapes', description: 'Dirt held in textured concrete, paver joints, and walkways.' },
+	],
+} = Astro.props;
+---
+
+<section class="problems section" aria-labelledby="problems-title">
+	<div class="container">
+		<div class="problems__heading"><div><p class="eyebrow">{eyebrow}</p><h2 class="section-heading" id="problems-title">{title}</h2></div><p class="section-copy">{intro}</p></div>
+		<div class="problem-grid">
+			{items.map((item, index) => (
+				<article class="problem-card"><span class="problem-card__number">0{index + 1}</span><h3>{item.name}</h3><p>{item.description}</p></article>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.section { padding-block: clamp(4.5rem, 8vw, 7.2rem); }
+	.problems { background: var(--color-paper); }
+	.problems__heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.2rem; }
+	.problems__heading > div { max-width: 620px; }
+	.problems__heading .section-copy { max-width: 370px; margin: 0 0 0.2rem; }
+	.problem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; }
+	.problem-card { min-height: 12rem; padding: 1.15rem 1.2rem; border-top: 1px solid #aebeb7; background: linear-gradient(180deg, rgb(255 254 250 / 72%), rgb(255 254 250 / 0%)); }
+	.problem-card__number { color: #71928a; font-family: var(--font-display); font-size: 0.7rem; font-weight: 700; }
+	.problem-card h3 { margin: 1.7rem 0 0.5rem; font-family: var(--font-display); font-size: 1.06rem; font-weight: 600; letter-spacing: -0.02em; }
+	.problem-card p { max-width: 230px; margin: 0; color: var(--color-muted); font-size: 0.78rem; line-height: 1.6; }
+	@media (max-width: 800px) { .problem-grid { grid-template-columns: repeat(2, 1fr); } .problem-card { min-height: 10rem; } }
+	@media (max-width: 650px) { .problems__heading { align-items: flex-start; flex-direction: column; gap: 0.6rem; } .problems__heading .section-copy { max-width: 520px; } }
+	@media (max-width: 430px) { .problem-grid { grid-template-columns: 1fr; gap: 0.2rem; } .problem-card { min-height: 0; padding-block: 1rem; } .problem-card h3 { margin-top: 0.8rem; } }
+</style>

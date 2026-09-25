@@ -1,0 +1,63 @@
+---
+import { services as defaultServices, type ServiceInfo } from '../data/services';
+
+interface Props {
+	eyebrow?: string;
+	title?: string;
+	intro?: string;
+	items?: ServiceInfo[];
+}
+
+const {
+	eyebrow = 'Exterior cleaning services',
+	title = 'A fresh look, from roofline to driveway.',
+	intro = 'Choose a service to learn more. Each page is a starter for confirmed methods, surface details, and estimate information.',
+	items = defaultServices,
+} = Astro.props;
+---
+
+<section class="services section" id="services" aria-labelledby="services-title">
+	<div class="container">
+		<div class="section-top">
+			<div><p class="eyebrow">{eyebrow}</p><h2 class="section-heading" id="services-title">{title}</h2></div>
+			<p class="section-copy">{intro}</p>
+		</div>
+		<div class="service-grid">
+			{items.map((service, index) => (
+				<a class="service-card" href={`/services/${service.slug}/`}>
+					<span class="service-card__top"><span class="service-card__number">0{index + 1}</span><span class="service-card__arrow" aria-hidden="true">↗</span></span>
+					<span class="service-card__body"><strong>{service.name}</strong><span>{service.shortDescription}</span></span>
+				</a>
+			))}
+			<div class="service-contact"><span class="service-contact__line" aria-hidden="true"></span><p class="eyebrow">Have a different project?</p><h3>Tell us what needs a clean.</h3><a href="#contact">Talk through your estimate <span aria-hidden="true">↗</span></a></div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.section { padding-block: clamp(4.5rem, 8vw, 7.2rem); }
+	.services { background: var(--color-white); }
+	.section-top { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.4rem; }
+	.section-top > div { max-width: 630px; }
+	.section-top .section-copy { max-width: 365px; margin: 0 0 0.25rem; }
+	.service-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; }
+	.service-card { display: flex; min-height: 13.5rem; flex-direction: column; justify-content: space-between; padding: 1.15rem; border: 1px solid var(--color-line); border-radius: 0.85rem; color: var(--color-ink); background: var(--color-white); text-decoration: none; transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease; }
+	.service-card:hover { transform: translateY(-3px); border-color: #a5c1b9; box-shadow: 0 12px 30px rgb(23 55 71 / 8%); }
+	.service-card__top { display: flex; align-items: center; justify-content: space-between; }
+	.service-card__number { color: #6b8b8b; font-family: var(--font-display); font-size: 0.74rem; font-weight: 700; }
+	.service-card__arrow { display: grid; width: 1.8rem; height: 1.8rem; place-items: center; border: 1px solid var(--color-line); border-radius: 50%; color: var(--color-ink-soft); font-size: 0.9rem; transition: color 160ms ease, background-color 160ms ease; }
+	.service-card:hover .service-card__arrow { border-color: var(--color-ink); color: white; background: var(--color-ink); }
+	.service-card__body { display: block; }
+	.service-card__body strong { display: block; margin-bottom: 0.5rem; font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.2; }
+	.service-card__body > span { display: block; color: var(--color-muted); font-size: 0.78rem; line-height: 1.6; }
+	.service-contact { display: flex; min-height: 13.5rem; flex-direction: column; align-items: flex-start; justify-content: center; padding: 1.3rem; border-radius: 0.85rem; color: white; background: var(--color-ink); }
+	.service-contact__line { width: 2rem; height: 2px; margin-bottom: 1rem; background: var(--color-sand); }
+	.service-contact .eyebrow { margin-bottom: 0.45rem; color: #d0dcdf; font-size: 0.62rem; }
+	.service-contact .eyebrow::before { display: none; }
+	.service-contact h3 { margin: 0; font-family: var(--font-display); font-size: 1.35rem; font-weight: 500; letter-spacing: -0.035em; }
+	.service-contact a { display: inline-flex; gap: 0.5rem; margin-top: 1rem; color: #e2ede8; font-size: 0.74rem; font-weight: 700; text-decoration: none; }
+	.service-contact a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+	@media (max-width: 940px) { .service-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+	@media (max-width: 720px) { .section-top { align-items: flex-start; flex-direction: column; gap: 0.6rem; margin-bottom: 1.8rem; } .section-top .section-copy { max-width: 520px; } .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+	@media (max-width: 440px) { .service-grid { grid-template-columns: 1fr; gap: 0.7rem; } .service-card { min-height: 10.5rem; } .service-contact { min-height: 12rem; } }
+</style>

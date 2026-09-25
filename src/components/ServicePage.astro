@@ -1,0 +1,81 @@
+---
+import { services } from '../data/services';
+import type { ServiceInfo } from '../data/services';
+import { site } from '../data/site';
+import CTA from './CTA.astro';
+import Footer from './Footer.astro';
+import Header from './Header.astro';
+import Layout from '../layouts/Layout.astro';
+
+interface Props {
+	service: ServiceInfo;
+}
+
+const { service } = Astro.props;
+const otherServices = services.filter((item) => item.slug !== service.slug).slice(0, 3);
+const navItems = [
+	{ label: 'Services', href: '/#services' },
+	{ label: 'Why Elite', href: '/#why-us' },
+	{ label: 'Reviews', href: '/#reviews' },
+	{ label: 'Areas', href: '/#service-areas' },
+	{ label: 'FAQs', href: '/#faq' },
+];
+---
+
+<Layout title={`${service.name} | ${site.name}`} description={service.metaDescription}>
+	<Header brand={site.name} category={site.category} phoneDisplay={site.phoneDisplay} phoneHref={site.phoneHref} items={navItems} />
+	<main id="main">
+		<section class="service-hero" id="top" aria-labelledby="service-title">
+			<div class="container service-hero__grid">
+				<div>
+					<p class="eyebrow">{site.region} · Exterior cleaning</p>
+					<h1 id="service-title">{service.name}</h1>
+					<p class="service-hero__intro">{service.intro}</p>
+					<a class="button button--accent" href="#contact">Request an estimate <span aria-hidden="true">↗</span></a>
+				</div>
+				<div class="service-art" aria-hidden="true"><span class="service-art__sun"></span><svg viewBox="0 0 360 290" fill="none"><path d="M28 226h304" stroke="#8daaa2" stroke-width="2" /><path d="M95 202V111l85-65 85 65v91H95Z" fill="#fffefa" /><path d="m78 111 102-78 102 78" stroke="#9a6e60" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" /><path d="M118 125h43v44h-43zM201 125h43v44h-43z" fill="#c7ded8" /><path d="M139 125v44m-21-22h43m61-22v44m-21-22h43" stroke="#537683" stroke-width="3" /><path d="M159 202v-52a21 21 0 0 1 42 0v52" fill="#e1e9e0" /><path d="M180 173v2" stroke="#537683" stroke-width="3" stroke-linecap="round" /><path d="M62 228c0-34 18-55 34-65 19 11 34 33 32 64-1 23-15 36-33 41-18-3-31-16-33-40Z" fill="#77978c" /><path d="M95 264V171m1 42 21-18m-22 41-19-21" stroke="#416a66" stroke-width="3" stroke-linecap="round" /></svg><span class="service-art__caption">Naples, Florida</span></div>
+			</div>
+		</section>
+		<section class="service-content section" aria-labelledby="service-details-title">
+			<div class="container">
+				<p class="eyebrow">Service details</p>
+				<h2 class="section-heading" id="service-details-title">A page to make this service clear.</h2>
+				<p class="section-copy">Add the confirmed scope of {service.name.toLowerCase()} before publishing. These prompts keep each service page useful and specific.</p>
+				<div class="detail-grid">
+					<article><span>01</span><h3>Surfaces included</h3><p>[List accepted materials, areas, and any service limits.]</p></article>
+					<article><span>02</span><h3>Cleaning approach</h3><p>[Explain the method and protections used for this service.]</p></article>
+					<article><span>03</span><h3>Before the visit</h3><p>[Add confirmed preparation, access, and scheduling information.]</p></article>
+				</div>
+			</div>
+		</section>
+		<section class="related section" id="services" aria-labelledby="related-title">
+			<div class="container"><p class="eyebrow">Explore more</p><h2 class="section-heading" id="related-title">Other exterior cleaning services.</h2><div class="related__links">{otherServices.map((item) => <a href={`/services/${item.slug}/`}>{item.name}<span aria-hidden="true">↗</span></a>)}</div></div>
+		</section>
+		<CTA phoneDisplay={site.phoneDisplay} phoneHref={site.phoneHref} />
+	</main>
+	<Footer brand={site.name} category={site.category} region={site.region} phoneDisplay={site.phoneDisplay} phoneHref={site.phoneHref} />
+</Layout>
+
+<style>
+	.service-hero { overflow: hidden; padding-block: clamp(3.6rem, 7vw, 6rem); background: var(--color-paper); }
+	.service-hero__grid { display: grid; grid-template-columns: 1fr 0.85fr; align-items: center; gap: clamp(2.5rem, 7vw, 6rem); }
+	h1 { max-width: 630px; margin: 0; font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5.3rem); font-weight: 500; letter-spacing: -0.055em; line-height: 1; }
+	.service-hero__intro { max-width: 550px; margin: 1.3rem 0 1.6rem; color: var(--color-muted); font-size: 0.98rem; line-height: 1.75; }
+	.service-art { position: relative; display: grid; min-height: 19rem; place-items: center; overflow: hidden; border-radius: 45% 45% 0.8rem 0.8rem / 30% 30% 0.8rem 0.8rem; background: #dfe9e4; }
+	.service-art svg { position: relative; z-index: 1; width: 80%; margin-top: 1rem; }
+	.service-art__sun { position: absolute; top: 2.3rem; right: 3.2rem; width: 4.8rem; height: 4.8rem; border-radius: 50%; background: #dfcca4; }
+	.service-art__caption { position: absolute; right: 0.8rem; bottom: 0.8rem; padding: 0.5rem 0.65rem; border-radius: 0.3rem; color: var(--color-ink); background: rgb(255 254 250 / 92%); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; }
+	.section { padding-block: clamp(4rem, 7vw, 6rem); }
+	.service-content { background: var(--color-white); }
+	.detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-top: 2rem; }
+	.detail-grid article { min-height: 12rem; padding: 1.2rem; border: 1px solid var(--color-line); border-radius: 0.55rem; }
+	.detail-grid article > span { color: #658980; font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; }
+	.detail-grid h3 { margin: 1.35rem 0 0.5rem; font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
+	.detail-grid p { margin: 0; color: var(--color-muted); font-size: 0.78rem; line-height: 1.65; }
+	.related { background: #efeee7; }
+	.related__links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; margin-top: 1.8rem; }
+	.related__links a { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; padding: 0.9rem 1rem; border: 1px solid #d9ddd6; border-radius: 0.45rem; background: var(--color-white); font-size: 0.77rem; font-weight: 600; text-decoration: none; }
+	.related__links a:hover { border-color: #8caea4; }
+	.related__links span { color: #5b8179; }
+	@media (max-width: 720px) { .service-hero__grid { grid-template-columns: 1fr; gap: 2rem; } .service-art { width: min(100%, 500px); margin-inline: auto; } .detail-grid { grid-template-columns: 1fr; } .detail-grid article { min-height: 9rem; } .related__links { grid-template-columns: 1fr; } }
+</style>

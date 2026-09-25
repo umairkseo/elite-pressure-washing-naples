@@ -1,0 +1,55 @@
+---
+interface Reason {
+	title: string;
+	description: string;
+}
+
+interface Props {
+	eyebrow?: string;
+	title?: string;
+	intro?: string;
+	items?: Reason[];
+}
+
+const {
+	eyebrow = 'Why choose Elite',
+	title = 'Good exterior care is in the details.',
+	intro = 'Use these points to explain what customers can expect and what makes your service the right fit.',
+	items = [
+		{ title: 'A plan for the surface', description: 'Describe how the cleaning approach changes for roofs, pavers, screens, and other materials.' },
+		{ title: 'Clear from the first call', description: 'Set expectations for estimates, scheduling, preparation, and what the service includes.' },
+		{ title: 'Care around the home', description: 'Explain how the team works around landscaping, outdoor furniture, and nearby surfaces.' },
+	],
+} = Astro.props;
+---
+
+<section class="why section" id="why-us" aria-labelledby="why-title">
+	<div class="container">
+		<div class="why__heading"><div><p class="eyebrow">{eyebrow}</p><h2 class="section-heading" id="why-title">{title}</h2></div><p class="why__intro">{intro}</p></div>
+		<div class="reason-grid">
+			{items.map((item, index) => (
+				<article class="reason"><span class="reason__index">0{index + 1}</span><h3>{item.title}</h3><p>{item.description}</p></article>
+			))}
+		</div>
+		<p class="why__note"><span aria-hidden="true">✳</span> Replace these starter points with confirmed business differentiators.</p>
+	</div>
+</section>
+
+<style>
+	.section { padding-block: clamp(4.5rem, 8vw, 7.2rem); }
+	.why { color: white; background: #183b4d; }
+	.why .eyebrow { color: #d1dfdc; }
+	.why .eyebrow::before { background: #b9d3ce; }
+	.why__heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }
+	.why__heading > div { max-width: 625px; }
+	.why .section-heading { max-width: 600px; }
+	.why__intro { max-width: 350px; margin: 0 0 0.2rem; color: #d1dfdc; font-size: 0.9rem; line-height: 1.7; }
+	.reason-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 3rem; }
+	.reason { min-height: 12rem; padding: 1.2rem 1.25rem 0 0; border-top: 1px solid rgb(255 255 255 / 28%); }
+	.reason__index { color: #b9d3ce; font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; }
+	.reason h3 { margin: 1.5rem 0 0.55rem; font-family: var(--font-display); font-size: 1.27rem; font-weight: 500; letter-spacing: -0.025em; }
+	.reason p { max-width: 320px; margin: 0; color: #d1dfdc; font-size: 0.8rem; line-height: 1.7; }
+	.why__note { display: inline-flex; align-items: center; gap: 0.5rem; margin: 2rem 0 0; padding: 0.55rem 0.75rem; border: 1px dashed rgb(255 255 255 / 35%); border-radius: 0.35rem; color: #d1dfdc; font-size: 0.68rem; }
+	.why__note span { color: var(--color-sand); }
+	@media (max-width: 700px) { .why__heading { align-items: flex-start; flex-direction: column; gap: 0.7rem; } .why__intro { max-width: 530px; } .reason-grid { grid-template-columns: 1fr; gap: 0.8rem; margin-top: 2.1rem; } .reason { min-height: 0; padding: 1rem 0 0.25rem; } .reason h3 { margin-top: 0.8rem; } .reason p { max-width: 520px; } .why__note { align-items: flex-start; line-height: 1.5; } }
+</style>

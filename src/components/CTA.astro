@@ -1,0 +1,42 @@
+---
+interface Props {
+	title?: string;
+	copy?: string;
+	primaryLabel?: string;
+	phoneDisplay?: string;
+	phoneHref?: string;
+}
+
+const {
+	title = 'Ready for a cleaner first impression?',
+	copy = 'Tell us which surfaces you have in mind. We’ll talk through the next step and the details to include in an estimate.',
+	primaryLabel = 'Call for an estimate',
+	phoneDisplay = '[PHONE NUMBER]',
+	phoneHref = '',
+} = Astro.props;
+
+const callHref = phoneHref || '#contact-details';
+---
+
+<section class="cta" id="contact" aria-labelledby="cta-title">
+	<div class="container cta__panel">
+		<div class="cta__copy"><p class="eyebrow">A fresh exterior starts here</p><h2 id="cta-title">{title}</h2><p>{copy}</p></div>
+		<div class="cta__actions"><a class="button button--accent" href={callHref}>{primaryLabel}<span aria-hidden="true">↗</span></a><p>Phone <strong class="placeholder">{phoneDisplay}</strong></p></div>
+		<span class="cta__motif" aria-hidden="true"><svg viewBox="0 0 220 220" fill="none"><circle cx="110" cy="110" r="78" stroke="currentColor" stroke-width="1.5" /><circle cx="110" cy="110" r="52" stroke="currentColor" stroke-width="1.5" /><path d="M110 24c-17 30-39 48-39 73a39 39 0 1 0 78 0c0-25-22-43-39-73Z" stroke="currentColor" stroke-width="1.5" /></svg></span>
+	</div>
+</section>
+
+<style>
+	.cta { padding-block: clamp(3.5rem, 7vw, 5.8rem); background: var(--color-paper); }
+	.cta__panel { position: relative; display: flex; min-height: 18rem; align-items: center; justify-content: space-between; gap: 3rem; overflow: hidden; padding: clamp(2rem, 5.5vw, 4.4rem); border-radius: 0.9rem; color: white; background: #183b4d; }
+	.cta__copy { position: relative; z-index: 1; max-width: 630px; }
+	.cta .eyebrow { color: #d1dfdc; }
+	.cta .eyebrow::before { background: var(--color-sand); }
+	.cta h2 { max-width: 600px; margin: 0; font-family: var(--font-display); font-size: clamp(2.25rem, 4.5vw, 3.65rem); font-weight: 500; letter-spacing: -0.055em; line-height: 1.04; }
+	.cta__copy > p:last-child { max-width: 490px; margin: 1rem 0 0; color: #d1dfdc; font-size: 0.9rem; line-height: 1.7; }
+	.cta__actions { position: relative; z-index: 1; display: flex; flex: 0 0 auto; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+	.cta__actions p { display: grid; gap: 0.35rem; margin: 0; color: #d1dfdc; font-size: 0.65rem; }
+	.cta__motif { position: absolute; right: 22%; bottom: -8rem; width: 20rem; color: rgb(211 226 217 / 9%); }
+	@media (max-width: 760px) { .cta__panel { align-items: flex-start; flex-direction: column; gap: 2rem; } .cta__motif { right: -3rem; bottom: -9rem; } }
+	@media (max-width: 440px) { .cta__panel { min-height: 0; padding: 2rem 1.25rem; } }
+</style>

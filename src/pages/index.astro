@@ -1,0 +1,44 @@
+---
+import About from '../components/About.astro';
+import CTA from '../components/CTA.astro';
+import CommonProblems from '../components/CommonProblems.astro';
+import FAQ from '../components/FAQ.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Process from '../components/Process.astro';
+import Reviews from '../components/Reviews.astro';
+import ServiceAreas from '../components/ServiceAreas.astro';
+import Services from '../components/Services.astro';
+import TrustBar from '../components/TrustBar.astro';
+import WhyChooseUs from '../components/WhyChooseUs.astro';
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+
+const description = `${site.name} provides exterior pressure washing in ${site.region}. Explore residential and commercial cleaning services.`;
+---
+
+<Layout title={`${site.name} | Exterior Cleaning`} description={description}>
+	<Header brand={site.name} category={site.category} phoneDisplay={site.phoneDisplay} phoneHref={site.phoneHref} />
+	<main id="main">
+		<Hero />
+		<TrustBar
+			city={site.city}
+			state={site.state}
+			yearsExperience={site.yearsExperience}
+			licenseDetails={site.licenseDetails}
+			reviewRating={site.reviewRating}
+			reviewCount={site.reviewCount}
+		/>
+		<Services />
+		<CommonProblems />
+		<About city={site.city} state={site.state} />
+		<WhyChooseUs />
+		<Process />
+		<Reviews rating={site.reviewRating} count={site.reviewCount} />
+		<ServiceAreas city={site.city} state={site.state} items={[...site.serviceAreas]} />
+		<FAQ />
+		<CTA phoneDisplay={site.phoneDisplay} phoneHref={site.phoneHref} />
+	</main>
+	<Footer brand={site.name} category={site.category} region={site.region} phoneDisplay={site.phoneDisplay} phoneHref={site.phoneHref} />
+</Layout>

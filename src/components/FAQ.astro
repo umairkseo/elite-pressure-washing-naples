@@ -1,0 +1,56 @@
+---
+interface FAQItem {
+	question: string;
+	answer: string;
+}
+
+interface Props {
+	eyebrow?: string;
+	title?: string;
+	items?: FAQItem[];
+}
+
+const {
+	eyebrow = 'A few helpful answers',
+	title = 'Before we get started.',
+	items = [
+		{ question: 'What areas do you serve?', answer: 'Naples, Florida is the primary location for this site. The nearby neighborhoods and communities in the service-area list are placeholders until the coverage area is confirmed.' },
+		{ question: 'What exterior surfaces can you clean?', answer: 'The service list includes house washing, roof cleaning, driveways, pavers, pool cages and lanais, soft washing, and commercial pressure washing. Confirm available surfaces and methods with the business.' },
+		{ question: 'How do I get an estimate?', answer: 'Add the business’s estimate process here, including how customers can request a quote and what project details are helpful.' },
+		{ question: 'What license and insurance details should I know?', answer: '[Add verified license and insurance information here before publishing.]' },
+	],
+} = Astro.props;
+---
+
+<section class="faq section" id="faq" aria-labelledby="faq-title">
+	<div class="container faq__grid">
+		<div class="faq__intro"><p class="eyebrow">{eyebrow}</p><h2 class="section-heading" id="faq-title">{title}</h2><p class="section-copy">Need another detail? Get in touch and we’ll point you in the right direction.</p><a href="#contact" class="faq__link">Request an estimate <span aria-hidden="true">↗</span></a></div>
+		<div class="faq-list">
+			{items.map((item, index) => (
+				<details class="faq-item" open={index === 0}>
+					<summary>{item.question}<span aria-hidden="true"></span></summary>
+					<p>{item.answer}</p>
+				</details>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.section { padding-block: clamp(4.5rem, 8vw, 7.2rem); }
+	.faq { background: var(--color-paper); }
+	.faq__grid { display: grid; grid-template-columns: 0.78fr 1.22fr; gap: clamp(3rem, 8vw, 7rem); }
+	.faq__intro { max-width: 400px; }
+	.faq__link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.5rem; font-size: 0.82rem; font-weight: 700; text-decoration: none; }
+	.faq__link:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+	.faq-list { border-top: 1px solid var(--color-line); }
+	.faq-item { border-bottom: 1px solid var(--color-line); }
+	.faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.15rem 0; font-family: var(--font-display); font-size: 0.98rem; font-weight: 600; letter-spacing: -0.015em; cursor: pointer; list-style: none; }
+	.faq-item summary::-webkit-details-marker { display: none; }
+	.faq-item summary > span { position: relative; width: 1.5rem; height: 1.5rem; flex: 0 0 auto; border: 1px solid #cbd2cd; border-radius: 50%; }
+	.faq-item summary > span::before, .faq-item summary > span::after { position: absolute; top: 50%; left: 50%; width: 0.53rem; height: 1.5px; background: var(--color-ink); content: ''; transform: translate(-50%, -50%); }
+	.faq-item summary > span::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform 150ms ease; }
+	.faq-item[open] summary > span::after { transform: translate(-50%, -50%); }
+	.faq-item p { max-width: 600px; margin: -0.15rem 2.2rem 1.1rem 0; color: var(--color-muted); font-size: 0.82rem; line-height: 1.7; }
+	@media (max-width: 700px) { .faq__grid { grid-template-columns: 1fr; gap: 2.2rem; } .faq__intro { max-width: 560px; } }
+</style>

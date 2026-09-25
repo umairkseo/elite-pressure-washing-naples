@@ -1,0 +1,73 @@
+---
+interface FooterLink {
+	label: string;
+	href: string;
+}
+
+interface Props {
+	brand?: string;
+	category?: string;
+	region?: string;
+	phoneDisplay?: string;
+	phoneHref?: string;
+	links?: FooterLink[];
+}
+
+const {
+	brand = 'Elite Pressure Washing Naples',
+	category = 'Pressure Washing',
+	region = 'Naples, Florida',
+	phoneDisplay = '[PHONE NUMBER]',
+	phoneHref = '',
+	links = [
+		{ label: 'Services', href: '#services' },
+		{ label: 'About Naples', href: '#about' },
+		{ label: 'Service areas', href: '#service-areas' },
+		{ label: 'FAQs', href: '#faq' },
+	],
+} = Astro.props;
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+	<div class="container">
+		<div class="footer__main">
+			<a class="brand" href="#top" aria-label={`${brand} home`}>
+				<span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 44 44" fill="none"><path d="M22 4C17.5 12 9.5 19.4 9.5 27.3a12.5 12.5 0 1 0 25 0C34.5 19.4 26.5 12 22 4Z" stroke="currentColor" stroke-width="2" /><path d="M14 28c4.6-2.2 10.1-2.2 16 0M16.5 33c3.2-1.3 7.7-1.3 11 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg></span>
+				<span class="brand__type"><strong>{brand}</strong><small>{category}</small></span>
+			</a>
+			<p class="footer__tagline">Exterior care for<br />the place you call home.</p>
+			<div class="footer__contact" id="contact-details"><strong>Contact</strong><span class="footer__phone-label">Phone</span>{phoneHref ? <a href={phoneHref}><span class="placeholder">{phoneDisplay}</span></a> : <span class="placeholder">{phoneDisplay}</span>}<span>{region}</span></div>
+		</div>
+		<div class="footer__bottom">
+			<p>© {year} {brand}. All rights reserved.</p>
+			<nav aria-label="Footer navigation">{links.map((link) => <a href={link.href}>{link.label}</a>)}</nav>
+			<a class="back-top" href="#top">Back to top <span aria-hidden="true">↑</span></a>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.footer { padding-top: 3rem; color: white; background: #122f3d; }
+	.footer__main { display: grid; grid-template-columns: 1.3fr 1fr 1fr; align-items: start; gap: 2rem; padding-bottom: 2.8rem; }
+	.brand { display: inline-flex; align-items: center; gap: 0.65rem; color: white; text-decoration: none; }
+	.brand__mark { width: 2.35rem; height: 2.35rem; color: #b8d4cc; }
+	.brand__type strong, .brand__type small { display: block; }
+	.brand__type strong { max-width: 18rem; font-family: var(--font-display); font-size: 0.92rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+	.brand__type small { margin-top: 0.23rem; color: #c4d3d4; font-size: 0.56rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+	.footer__tagline { margin: 0; color: #d4dfdc; font-family: var(--font-display); font-size: 1.16rem; font-weight: 400; letter-spacing: -0.025em; line-height: 1.4; }
+	.footer__contact { display: grid; justify-self: end; gap: 0.4rem; font-size: 0.75rem; }
+	.footer__contact > strong { margin-bottom: 0.15rem; color: #c4d3d4; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; }
+	.footer__contact > a { width: fit-content; color: white; font-weight: 700; text-decoration: none; }
+	.footer__phone-label, .footer__contact > span:last-child { color: #bdccce; font-size: 0.68rem; }
+	.footer__bottom { display: flex; min-height: 4.4rem; align-items: center; justify-content: space-between; gap: 1.5rem; border-top: 1px solid rgb(255 255 255 / 17%); color: #bdccce; font-size: 0.65rem; }
+	.footer__bottom p { margin: 0; }
+	.footer__bottom nav { display: flex; flex-wrap: wrap; gap: 1.15rem; }
+	.footer__bottom a { color: inherit; text-decoration: none; }
+	.footer__bottom nav a:hover, .back-top:hover { color: white; }
+	.back-top { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; }
+	.back-top span { color: #c5ddd5; font-size: 0.9rem; }
+	@media (max-width: 700px) { .footer__main { grid-template-columns: 1fr 1fr; gap: 1.5rem; } .footer__contact { justify-self: start; } .footer__bottom { flex-wrap: wrap; justify-content: flex-start; padding-block: 1.1rem; } .footer__bottom nav { order: 1; width: 100%; } .back-top { margin-left: auto; } }
+	@media (max-width: 430px) { .footer__main { grid-template-columns: 1fr; gap: 1.25rem; padding-bottom: 2rem; } }
+</style>

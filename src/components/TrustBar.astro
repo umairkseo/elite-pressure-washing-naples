@@ -1,0 +1,46 @@
+---
+interface Props {
+	city?: string;
+	state?: string;
+	yearsExperience?: string;
+	licenseDetails?: string;
+	reviewRating?: string;
+	reviewCount?: string;
+}
+
+const {
+	city = 'Naples',
+	state = 'Florida',
+	yearsExperience = '[YEARS OF EXPERIENCE]',
+	licenseDetails = '[LICENSE / INSURANCE DETAILS]',
+	reviewRating = '[VERIFIED REVIEW RATING]',
+	reviewCount = '[VERIFIED REVIEW COUNT]',
+} = Astro.props;
+---
+
+<section class="trust" aria-label="Business details to confirm">
+	<div class="container trust__grid">
+		<p class="trust__intro">The details that<br /><strong>matter to your home.</strong></p>
+		<div class="trust__item"><span class="trust__icon" aria-hidden="true">⌖</span><p><strong>{city}, {state}</strong><small>Service location</small></p></div>
+		<div class="trust__item"><span class="trust__icon" aria-hidden="true">01</span><p><strong class="placeholder">{yearsExperience}</strong><small>Years of experience</small></p></div>
+		<div class="trust__item"><span class="trust__icon" aria-hidden="true">✓</span><p><strong class="placeholder">{licenseDetails}</strong><small>License & insurance</small></p></div>
+		<div class="trust__item"><span class="trust__icon" aria-hidden="true">☆</span><p><strong class="placeholder">{reviewRating}</strong><small>From <span class="placeholder">{reviewCount}</span> reviews</small></p></div>
+	</div>
+</section>
+
+<style>
+	.trust { border-block: 1px solid var(--color-line); background: #eeece4; }
+	.trust__grid { display: grid; grid-template-columns: 1.05fr repeat(4, 1fr); align-items: center; gap: 1rem; padding-block: 1.4rem; }
+	.trust__intro { margin: 0; color: var(--color-muted); font-size: 0.73rem; line-height: 1.5; }
+	.trust__intro strong { color: var(--color-ink); font-family: var(--font-display); font-size: 0.94rem; font-weight: 600; }
+	.trust__item { display: flex; min-width: 0; align-items: flex-start; gap: 0.55rem; }
+	.trust__icon { display: grid; width: 1.65rem; height: 1.65rem; flex: 0 0 auto; place-items: center; border: 1px solid #c5d5ce; border-radius: 50%; color: #47736d; font-family: var(--font-display); font-size: 0.68rem; font-weight: 700; }
+	.trust__item p { min-width: 0; margin: 0; }
+	.trust__item strong, .trust__item small { display: block; }
+	.trust__item strong { width: fit-content; max-width: 100%; font-size: 0.72rem; line-height: 1.3; }
+	.trust__item small { margin-top: 0.22rem; color: var(--color-muted); font-size: 0.62rem; line-height: 1.4; }
+	.trust__item small .placeholder { margin-left: 0.12rem; }
+	@media (max-width: 970px) { .trust__grid { grid-template-columns: repeat(4, 1fr); gap: 1rem 0.7rem; } .trust__intro { grid-column: span 4; } }
+	@media (max-width: 650px) { .trust__grid { grid-template-columns: repeat(2, 1fr); padding-block: 1.25rem; } .trust__intro { grid-column: span 2; margin-bottom: 0.25rem; } }
+	@media (max-width: 380px) { .trust__item { gap: 0.35rem; } .trust__icon { width: 1.4rem; height: 1.4rem; } .trust__item small { font-size: 0.58rem; } }
+</style>
